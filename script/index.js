@@ -1,8 +1,17 @@
+// element create function
 const createElement = (arr) => {
     const element = arr.map((item) => `<span class="btn">${item}</span>`).join(" ");
     return element;
 };
 
+// sound play function
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
+
+// toggle spinner
 const toggleSpinner = (isLoading) => {
   if(isLoading=== true){
     document.getElementById("loader").classList.remove("hidden");
@@ -14,6 +23,7 @@ const toggleSpinner = (isLoading) => {
   }
 };
 
+// load all lessons
 const loadLesson = () => {
     fetch("https://openapi.programming-hero.com/api/levels/all")
       .then((response) => response.json())
@@ -21,12 +31,14 @@ const loadLesson = () => {
        
 };
 
+// remove active class from all buttons
 const removeActiveClass = () => {
     const lessonButtons = document.querySelectorAll(".lesson-btn");
     // console.log(lessonButtons);
     lessonButtons.forEach((btn) => btn.classList.remove("btn-active"));
 };
 
+// load words by level id
 const loadLevelWords = (id) => {
   toggleSpinner(true);
     console.log(id);
@@ -43,7 +55,8 @@ const loadLevelWords = (id) => {
       });
 };
 
-const loadWordDetails =   async (id) => {
+// load word details by id
+const loadWordDetails = async (id) => {
     const url = `https://openapi.programming-hero.com/api/word/${id}`;
     console.log(url);
     const response = await fetch(url);
@@ -51,6 +64,7 @@ const loadWordDetails =   async (id) => {
     displayWordDetails(details.data);
 };
 
+// display word details in modal
 const displayWordDetails = (details) => {
     console.log(details);
     const detailsbox = document.getElementById("detailsContainer");
@@ -78,6 +92,7 @@ const displayWordDetails = (details) => {
     document.getElementById("word_modal").showModal();
 };
 
+// display words
 const displayWords = (words) => {
   const wordContainer = document.getElementById("wordContainer");
   wordContainer.innerHTML = '';
@@ -114,7 +129,7 @@ const displayWords = (words) => {
             <button onclick="loadWordDetails(${word.id})" class="btn font-bold">
                 <i class="fa-solid fa-circle-info"></i>
             </button>
-            <button class="btn">
+            <button onclick="pronounceWord('${word.word}')" class="btn">
                 <i class="fa-solid fa-volume-high"></i>
             </button>
         </div>
@@ -125,6 +140,7 @@ const displayWords = (words) => {
   toggleSpinner(false);
 };
 
+// display lessons 
 const displayLessons = (lessons) => {
     // 1. get the container and empty
     const lavaleContainer = document.getElementById("lavale-container");
@@ -142,4 +158,21 @@ const displayLessons = (lessons) => {
         lavaleContainer.appendChild(btnDiv);
     }
 };
+
 loadLesson();
+
+// search button event handler
+document.getElementById("btn-search").addEventListener("click", () => {
+   removeActiveClass();
+    const searchTerm = document.getElementById("search-input");
+    const searchValue = searchTerm.value.trim().toLowerCase();
+    console.log(searchValue);
+
+    fetch(`https://openapi.programming-hero.com/api/words/all`)
+        .then(response => response.json())
+        .then(data => {
+            const allwords = data.data;
+            const filteredWords = allwords.filter(word => word.word.includes(searchValue));
+            displayWords(filteredWords);
+        });
+});
