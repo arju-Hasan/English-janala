@@ -172,7 +172,10 @@ document.getElementById("btn-search").addEventListener("click", () => {
         .then(response => response.json())
         .then(data => {
             const allwords = data.data;
-            const filteredWords = allwords.filter(word => word.word.includes(searchValue));
+            // const filteredWords = allwords.filter(word => word.word.includes(searchValue));
+            const filteredWords = allwords.filter(
+              (wordObj) => wordObj.word.toLowerCase().includes(searchValue) // convert API word to lowercase
+            );
             displayWords(filteredWords);
         });
 });
