@@ -21,3 +21,16 @@
     background: #2637cf;
     color: white;
 }
+.modal-btn{
+    background: #2637cf;
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    margin: 8px 0;
+    border: 2px solid #2637cf;
+}
+.modal-btn:hover{
+    background: white;
+    color: #2637cf;
+}

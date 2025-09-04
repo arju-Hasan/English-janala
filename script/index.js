@@ -1,3 +1,8 @@
+const createElement = (arr) => {
+    const element = arr.map((item) => `<span class="btn">${item}</span>`).join(" ");
+    return element;
+};
+
 const loadLesson = () => {
     fetch("https://openapi.programming-hero.com/api/levels/all")
       .then((response) => response.json())
@@ -38,7 +43,11 @@ const displayWordDetails = (details) => {
     const detailsbox = document.getElementById("detailsContainer");
     detailsbox.innerHTML = `
          <div>
-                <h3 class="font-bold text-2xl">${details.word} (<i class="fa-solid fa-microphone-lines"></i> : ${details.pronunciation} )</h3>
+                <h3 class="font-bold text-2xl">${
+                  details.word
+                } (<i class="fa-solid fa-microphone-lines"></i> : ${
+      details.pronunciation
+    } )</h3>
             </div>
             <div>
                 <h3 class="font-bold">Meaning </h3>
@@ -50,16 +59,11 @@ const displayWordDetails = (details) => {
             </div>
              <div>
                 <h3 class="font-bold">সমার্থক শব্দ গুলো</h3>
-                <span class="btn">${details.synonyms[0]}</span>
-                <span class="btn">${details.synonyms[1]}</span>
-                <span class="btn">${details.synonyms[2]}</span>
+               <div>${createElement(details.synonyms)}</div>
             </div> 
     `;
     document.getElementById("word_modal").showModal();
 };
-
-
-
 
 const displayWords = (words) => {
   const wordContainer = document.getElementById("wordContainer");
