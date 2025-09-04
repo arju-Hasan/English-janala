@@ -1,0 +1,19 @@
+*{
+    font-family: "Poppins", sans-serif;
+}
+.font-bangla{
+    font-family: "Hind Siliguri", sans-serif;
+}
+.main-button{
+    background: white;
+    color: #2637cf;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    margin: 8px 0;
+    border: 2px solid #2637cf;
+}
+.main-button:hover{
+    background: #2637cf;
+    color: white;
+}
