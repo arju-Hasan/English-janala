@@ -3,12 +3,24 @@ const createElement = (arr) => {
     return element;
 };
 
+const toggleSpinner = (isLoading) => {
+  if(isLoading=== true){
+    document.getElementById("loader").classList.remove("hidden");
+    document.getElementById("wordContainer").classList.add("hidden");
+  }
+  else{
+    document.getElementById("loader").classList.add("hidden");
+    document.getElementById("wordContainer").classList.remove("hidden");
+  }
+};
+
 const loadLesson = () => {
     fetch("https://openapi.programming-hero.com/api/levels/all")
       .then((response) => response.json())
       .then((json) => displayLessons(json.data));
        
 };
+
 const removeActiveClass = () => {
     const lessonButtons = document.querySelectorAll(".lesson-btn");
     // console.log(lessonButtons);
@@ -16,6 +28,7 @@ const removeActiveClass = () => {
 };
 
 const loadLevelWords = (id) => {
+  toggleSpinner(true);
     console.log(id);
     const url = `https://openapi.programming-hero.com/api/level/${id}`;
     // console.log(url);
@@ -109,6 +122,7 @@ const displayWords = (words) => {
       `;
       wordContainer.appendChild(wordDiv);
   });
+  toggleSpinner(false);
 };
 
 const displayLessons = (lessons) => {
